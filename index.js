@@ -23,6 +23,11 @@ async function run() {
   try {
     const serviceCollection = client.db("servicedb").collection("services");
     const reviewCollection = client.db("servicedb").collection("reviews");
+    app.post("/services", async (req, res) => {
+      const review = req.body;
+      const result = await serviceCollection.insertOne(review);
+      res.send(result);
+    });
     app.get("/services/limited", async (req, res) => {
       const query = {};
       const cursor = serviceCollection.find(query);
@@ -33,11 +38,6 @@ async function run() {
       const query = {};
       const cursor = serviceCollection.find(query);
       const result = await cursor.toArray();
-      res.send(result);
-    });
-    app.post("/services", async (req, res) => {
-      const review = req.body;
-      const result = await reviewCollection.insertOne(review);
       res.send(result);
     });
     app.get("/services/:id", async (req, res) => {
