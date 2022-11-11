@@ -28,6 +28,12 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+    app.get("/services/limited", async (req, res) => {
+      const query = {};
+      const cursor = serviceCollection.find(query);
+      const result = await cursor.limit(3).toArray();
+      res.send(result);
+    });
   } finally {
   }
 }
